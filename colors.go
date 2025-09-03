@@ -44,14 +44,26 @@ const (
 )
 
 var (
-	ColorIn       Color = GreenBold
-	ColorOut      Color = MagentaBold
-	ColorPrompt   Color = WhiteBold
-	ColorMessage  Color = YellowBold
-	ColorResponse Color = TealBold
+	ColorIn      Color
+	ColorOut     Color
+	ColorPrompt  Color
+	ColorMessage Color
+	ColorResult  Color
 )
 
-func GetColor(color Color) string {
+func init() {
+	SetColorsToDefault()
+}
+
+func SetColorsToDefault() {
+	ColorIn = GreenBold
+	ColorOut = TealBold
+	ColorPrompt = WhiteBold
+	ColorMessage = YellowBold
+	ColorResult = MagentaBold
+}
+
+func GetColorValue(color Color) string {
 	return colors[color]
 }
 
@@ -155,10 +167,10 @@ func Messagef(format string, args ...any) string {
 	return fmt.Sprintf(colors[ColorMessage]+format+colors[Normal], args...)
 }
 
-func Response(args ...any) string {
-	return colors[ColorResponse] + fmt.Sprint(args...) + colors[Normal]
+func Result(args ...any) string {
+	return colors[ColorResult] + fmt.Sprint(args...) + colors[Normal]
 }
 
-func Responsef(format string, args ...any) string {
-	return fmt.Sprintf(colors[ColorResponse]+format+colors[Normal], args...)
+func Resultf(format string, args ...any) string {
+	return fmt.Sprintf(colors[ColorResult]+format+colors[Normal], args...)
 }
