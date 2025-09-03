@@ -49,6 +49,7 @@ var (
 	ColorPrompt  Color
 	ColorMessage Color
 	ColorResult  Color
+	ColorError   Color
 )
 
 func init() {
@@ -57,10 +58,11 @@ func init() {
 
 func SetColorsToDefault() {
 	ColorIn = GreenBold
-	ColorOut = TealBold
+	ColorOut = YellowBold
 	ColorPrompt = WhiteBold
-	ColorMessage = YellowBold
+	ColorMessage = TealBold
 	ColorResult = MagentaBold
+	ColorError = RedBold
 }
 
 func GetColorValue(color Color) string {
@@ -173,4 +175,16 @@ func Result(args ...any) string {
 
 func Resultf(format string, args ...any) string {
 	return fmt.Sprintf(colors[ColorResult]+format+colors[Normal], args...)
+}
+
+func Error(args ...any) string {
+	return colors[ColorError] + fmt.Sprint(args...) + colors[Normal]
+}
+
+func Errorf(format string, args ...any) string {
+	return fmt.Sprintf(colors[ColorError]+format+colors[Normal], args...)
+}
+
+func InputColor() string {
+	return colors[ColorIn]
 }

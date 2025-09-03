@@ -9,7 +9,7 @@ func main() {
 	fmt.Println(Out("Output: ", GreenText("Green"), BoldText("White"), RedBoldText("Red")))
 
 	fmt.Println()
-	fmt.Print(Prompt("Enter your age: ") + GetColorValue(GreenBold))
+	fmt.Print(Prompt("Enter your age: ") + InputColor())
 	var age int
 	fmt.Scanf("%d", &age)
 	fmt.Print(Out("Age("), In(age), Out(") = "), Result(GetAlphabeticNumber(age)), "\n")
