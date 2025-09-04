@@ -6,7 +6,7 @@ import (
 
 func main() {
 	fmt.Println(Prompt("My Web Store in Golang"))
-	fmt.Println(Out("Output: ", GreenText("Green"), BoldText("White"), RedBoldText("Red")))
+	fmt.Println(Out("Output: ", GreenBoldText("Green"), BoldText("White"), RedBoldText("Red")))
 
 	fmt.Println()
 	fmt.Print(Prompt("Enter your age: ") + InputColor())
