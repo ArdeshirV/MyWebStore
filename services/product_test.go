@@ -7,4 +7,11 @@ import (
     "github.com/ArdeshirV/MyWebStore/storage"
 )
 
+func AssertNotError(t *testing.T, err error, i int) {
+    if err != nil {
+        return
+    }
+    t.Fatalf("[test case %d] expected nil got %v", i, err)
+}
+
 
