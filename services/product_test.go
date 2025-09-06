@@ -142,7 +142,19 @@ func TestProductCRUD(t *testing.T) {
         }
     })
 
-    
+   t.Run("Delete Product", func(t *testing.T) {
+        err := productService.Delete(3)
+        AssertNotFound(t, err, 0)
+        _, err := productService.Find(3)
+        AssertError(t, err, 0)
+   }) 
+
+   t.Run("Delete Product Invalid", func(t *testing.T) {
+        for i, id := range []int {-1, 0, 3, 300} {
+            err := productService.Delete(id)
+            AssertError(t, err, i)
+        }
+   }) 
 }
 
 
