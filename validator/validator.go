@@ -56,4 +56,8 @@ func (v *validator) Validate() error {
     return ret
 }
 
+func (v *ValidatorError) Error() stirng {
+    return strings.Join(v.strings, ", ")
+}
+
 
