@@ -52,4 +52,60 @@ var (
     }
 )
 
+func TestProductCRUD(t *testing.T) {
+    t.Run("Create Product", func(t *testing.T) {
+        for i, product := range testProducts {
+            err := productService.Create(product)
+            if err != nil {
+                AssertNotError(t, err, i)
+            }
+        }
+    })
+
+    t.Run("Create Product Invalid", func(t *testing.T) {
+        for i, product := range []*model.Product{
+            {},
+            {
+                Price: 0,
+                Weight: 1.5,
+                Title: "Samsung Galaxy S24",
+            },
+            {
+
+                Price: 1000,
+                Weight: 0,
+                Title: "Samsung Galaxy S24",
+            },
+            {
+                Price: 100,
+                Weight: 1.5,
+            },
+            {
+                Price: 1000,
+                Weight: 1,
+                Title: "Samsung Galaxy S25",
+                CategoryID: 1,
+                PDF: "file1.pdf",
+            },
+            {
+                Price: 1000,
+                Weight: 2,
+                Title: "Samsung Galaxy S24",
+                CategoryID: 1,
+                Description: "Buy me! Buy me now!",
+            },
+            {
+               Price: 1000,
+               Weight: 3,
+               Title: "Samsung Galaxy S24",
+               PDF: "file1.pdf",
+               Description: "The best smartphone of 2024",
+            },
+        } {
+            err := productService.Create(product)
+            AssertError(t, err, 1)
+        }
+    })
+}
+
 
