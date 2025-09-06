@@ -127,7 +127,22 @@ func TestProductCRUD(t *testing.T) {
         }
     })
 
-    t.Run("")
+    t.Run("Find Product", func(t *testing.T) {
+        product, err := productService.Find(3)
+        AssertNotError(t, err, 0)
+        if product.ID != 3 {
+            t.Fatal("mismatch IDs")
+        }
+    })
+
+    t.Run("Find Product Invalid", func(t *testing.T) {
+        for i, id := range []int{-1, 0, 300} {
+            _, err := productService.Find(id)
+            AsseertError(t, err, i)
+        }
+    })
+
+    
 }
 
 
