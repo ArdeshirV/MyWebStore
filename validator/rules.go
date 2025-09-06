@@ -40,3 +40,18 @@ func String(field, value string) Rule {
         }
     }
 }
+
+func Number[T constraints.Integer | constraints.Float](field string, value T) Rule {
+   var zero T
+   return func() error {
+        switch {
+        case strings.TrimSpace(field) == "":
+            return errors.New(ErrFieldIsEmpty)
+        case value == zero:
+            return fmt.Errorf("%s is empty", field)
+        default:
+            return nil
+        }
+   }
+}
+
