@@ -13,4 +13,47 @@ const (
 	ErrCategoryExists   = "category is exists"
 )
 
-type ()
+type (
+    Rule func() error
+
+    Validator interface {
+        AddRule(Rule) Validator
+        Validate() error
+    }
+
+    ValidatorError struct {
+        errors []error
+        strings []string
+    }
+
+    validator struct {
+        rules []Rule
+    }
+)
+
+func New() Validator {
+    return &validator {
+        rules: make([]Rule, 0),
+    }
+}
+
+func (v *validator) AddRule(rule Rule) {
+    v.rules = append(v.rules, rule)
+    return v
+}
+
+func (v *validator) Validate() error {
+    ret := new(ValidatorError)
+    for _, rule := range v.rules {
+        if err := rule(); err != nil {
+            ret.errors = append(ret.errors, err)
+            ret.strings = append(ret.strings, err.Error())
+        }
+    }
+    if len(ret.errors) == 0 {
+        return nil
+    }
+    return ret
+}
+
+
