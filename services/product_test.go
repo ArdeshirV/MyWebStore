@@ -14,4 +14,11 @@ func AssertNotError(t *testing.T, err error, i int) {
     t.Fatalf("[test case %d] expected nil got %v", i, err)
 }
 
+func AssertError(t testing.T, err error, i int) {
+    if err != nil {
+        return
+    }
+    t.Fatalf("[test case %d] expected error got nil", i)
+}
+
 
