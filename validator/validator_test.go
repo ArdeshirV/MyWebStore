@@ -156,7 +156,22 @@ func TestComplex(t *testing.T) {
                 Number(0, "price"),
                 Number(0.1, "weight"),
             },
-
+            {
+                String("Address", ""),
+                String("Please add salt to the food", "Comments"),
+            },
+            {
+                Number(1500, "price"),
+                String("Maryam Khancheru", "name"),
+                Number(0, "weight"),
+            },
+        }
+        for _, suit := range suites {
+            validator.AddRule(rule)
+        }
+        err := validator.Validate()
+        if err == nil {
+            log.Fatalf("[test case %d] Expected %s got nil", i, err)
         }
     })
 }
