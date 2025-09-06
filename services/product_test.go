@@ -106,6 +106,28 @@ func TestProductCRUD(t *testing.T) {
             AssertError(t, err, 1)
         }
     })
+
+    t.Run("Update Product", func(t *testing.T) {
+        for i, product := range testProducts {
+            product.Title += "_UPDATED"
+            err := productService.Update(product)
+            AssertNotError(t, err, i)
+        }
+    })
+
+    t.Run("Update Product Invalid", func(t *testing.T) {
+        for i, product := range []*models.Product {
+            {},
+            {ID: 1, Price: 0, Weight: 1.5, Title: "Samsung Galaxy S24"},
+            {ID: 2, Price: 1000, Weight: 0, Title: "Samsung Galaxy S24"},
+            {ID: 3, Price: 1000, Weight: 1.5, Title: ""},
+        } {
+            err := productService.Update(product)
+            AssertError(t, err, i)
+        }
+    })
+
+    t.Run("")
 }
 
 
