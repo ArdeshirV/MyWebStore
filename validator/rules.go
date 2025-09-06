@@ -55,3 +55,19 @@ func Number[T constraints.Integer | constraints.Float](field string, value T) Ru
    }
 }
 
+func Email(value string) Rule {
+    return func() error {
+        if err := String("email", value); err != nil {
+            return err
+        }
+        parts := strings.Split(value, "@")
+        if len(parts) > 1 && parts[0] != "" && parts[1] != "" {
+            domainParts := strings.Split(parts[1], ".")
+            if len(domainParts) > 1 && domainParts[0] != "" && domainParts[1] != "" {
+                return nil
+            }
+        }
+        return errors.New("email is not valid")
+    }
+}
+
