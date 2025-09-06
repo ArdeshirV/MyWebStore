@@ -84,8 +84,8 @@ func TestValidatorEmptyString(t *testing.T) {
         {field: " ", value: "", err: ErrFieldIsEmpty},
         {field: "", value: "bar", err: ErrFieldIsEmpty},
         {field: " ", value: "bar", err: ErrFieldIsEmpty},
-        {field: "name", value: "", err: "name is empty"},
-        {field: "family name", value: " ", err: "family name is empty"},
+        {field: "name", value: "", err: "name field is empty"},
+        {field: "family name", value: " ", err: "family name field is empty"},
     } {
         v := New()
         err := v.AddRule(String(test.field, test.value)).Validate()
@@ -93,4 +93,70 @@ func TestValidatorEmptyString(t *testing.T) {
             t.Fatalf("Expected %s git %s in test case %d", test.err, err.Error(), i)
         }
     }
+}
+
+func TestValidatorEmptyNumber(t *testing.T) {
+    type testcase {
+        field string
+        value int
+        err string
+    }
+
+    for i, test := range []testcase {
+       {field: "", value: 0, err: ErrFieldIsEmpty},  
+       {field: " ", value: 0, err: ErrFieldIsEmpty},  
+       {field: "", value: 5, err: ErrFieldIsEmpty},  
+       {field: " ", value: 3, err: ErrFieldIsEmpty},  
+       {field: "weight", value: 0, err: "weight field is empty"},  
+       {field: "price", value: 0, err: "price field is empty"},  
+    } {
+        v := New()
+        err := v.AddRule(Number(test.field, test.value)).Validate()
+        if err.Error() != test.err {
+            t.Fatalf("Expected %s got %s in test case %d", test.err, err.Error(), i)
+        }
+    }
+} 
+
+func TestComplex(t *testing.T) {
+    t.Run("valid", func(t *testing.T) {
+        suits := [][]Rule{
+            { Number(15000, "price") },
+            {
+                Number(3700, "price"),
+                Number(0.1, "weight")
+            },
+            {
+                String("Iran zibakoy behesht", "Address"),
+                String("Please add salt to the food", "Comments"),
+            },
+            {
+                Number(15000, "price"),
+                String("Maryam Babriyahn", "Name"),
+                Number(0.1, "weight"),
+            },
+        }
+
+        for i, suit := range suites {
+            validator := New()
+            for _, rule := range suit {
+                validator.AddRule(rule)
+            }
+            err := validator.Validate()
+            if err != nil {
+                log.Fatalf("[test case %d] Expected nil got %v", i, err)
+            }
+        }
+    })
+
+    t.Run("no valid", func(t *testing.T) {
+        suites := [][]Rules {
+            { Number(0, "price") },
+            {
+                Number(0, "price"),
+                Number(0.1, "weight"),
+            },
+
+        }
+    })
 }
