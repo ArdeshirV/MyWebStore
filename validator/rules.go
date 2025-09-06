@@ -28,4 +28,15 @@ func Phone(value string) Rule {
     }
 } 
 
-
+func String(field, value string) Rule {
+    return func() error {
+        switch {
+        case strings.TrimSpace(field) == "":
+            return errors.New(ErrFieldIsEmpty)
+        case strings.TrimSpace(value) == "":
+            return fmt.Errorf("%s is empty", field)
+        default:
+            return nil
+        }
+    }
+}
